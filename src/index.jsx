@@ -5,22 +5,23 @@ import _ from 'lodash'
 
 export default class DigitString {
   validate (input) {
-    if (input.match(/^[0-9]+$/)) {
-      if (this.props.max || this.props.min) {
-        const intValue = parseInt(input, 10)
-        return (
-          !isNaN(intValue) &&
-          (_.isUndefined(this.props.max) || this.props.max >= intValue) &&
-          (_.isUndefined(this.props.min) || this.props.min <= intValue)
-        )
-      }
-      return true
+    if (!input.match(/^[0-9]+$/)) {
+      return false
     }
-    return false
-  }
 
-  getValue (result) {
-    return parseInt(result, 10)
+    if ((!_.isUndefined(this.props.maxLength) && input.length > this.props.maxLength) ||
+        (!_.isUndefined(this.props.minLength) && input.length < this.props.minLength)) {
+      return false
+    }
+
+    const intValue = parseInt(input, 10)
+    if (isNaN(intValue) ||
+        (!_.isUndefined(this.props.max) && intValue > this.props.max) ||
+        (!_.isUndefined(this.props.min) && intValue < this.props.min)) {
+      return false
+    }
+
+    return true
   }
 
   describe () {
