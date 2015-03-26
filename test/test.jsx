@@ -176,4 +176,21 @@ describe('DigitString', () => {
     data = from(parser.parse('07500'))
     expect(data).to.have.length(0)
   })
+
+  it('rejects leading zeros with allowLeadingZeros', () => {
+    parser.sentences = [<DigitString allowLeadingZeros={false} />]
+
+    data = from(parser.parse('02'))
+    expect(data).to.have.length(0)
+
+    data = from(parser.parse('20'))
+    expect(data).to.have.length(1)
+    expect(fulltext.all(data[0])).to.equal('20')
+    expect(data[0].result).to.equal('20')
+
+    data = from(parser.parse('0'))
+    expect(data).to.have.length(1)
+    expect(fulltext.all(data[0])).to.equal('0')
+    expect(data[0].result).to.equal('0')
+  })
 })
