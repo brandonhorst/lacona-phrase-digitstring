@@ -1,6 +1,6 @@
 {
   "name": "lacona-phrase-digitstring",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Lacona Phrase for parsing digit-strings (machine-readable integers)",
   "main": "lib/index.js",
   "scripts": {
