@@ -7,8 +7,6 @@ import {expect} from 'chai'
 import fulltext from 'lacona-util-fulltext'
 import {Parser} from 'lacona'
 
-function from (i) {const a = []; for (let x of i) a.push(x); return a}
-
 describe('DigitString', () => {
   let parser, data
 
@@ -17,178 +15,178 @@ describe('DigitString', () => {
   })
 
   it('handles a digit string with no min/max', () => {
-    parser.sentences = [<DigitString />]
+    parser.grammar = <DigitString />
 
-    data = from(parser.parse('123'))
+    data = parser.parseArray('123')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('123')
     expect(data[0].result).to.equal('123')
 
-    data = from(parser.parse('123f'))
+    data = parser.parseArray('123f')
     expect(data).to.have.length(0)
   })
 
   it('handles a digit string with a min', () => {
-    parser.sentences = [<DigitString min={5} />]
+    parser.grammar = <DigitString min={5} />
 
-    data = from(parser.parse('7'))
+    data = parser.parseArray('7')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('7')
     expect(data[0].result).to.equal('7')
 
-    data = from(parser.parse('5'))
+    data = parser.parseArray('5')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('5')
     expect(data[0].result).to.equal('5')
 
-    data = from(parser.parse('3'))
+    data = parser.parseArray('3')
     expect(data).to.have.length(0)
   })
 
   it('handles a digit string with a max', () => {
-    parser.sentences = [<DigitString max={5} />]
+    parser.grammar = <DigitString max={5} />
 
-    data = from(parser.parse('3'))
+    data = parser.parseArray('3')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('3')
     expect(data[0].result).to.equal('3')
 
-    data = from(parser.parse('5'))
+    data = parser.parseArray('5')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('5')
     expect(data[0].result).to.equal('5')
 
-    data = from(parser.parse('7'))
+    data = parser.parseArray('7')
     expect(data).to.have.length(0)
   })
 
   it('handles a digit string with a min and a max', () => {
-    parser.sentences = [<DigitString min={3} max={5} />]
+    parser.grammar = <DigitString min={3} max={5} />
 
-    data = from(parser.parse('2'))
+    data = parser.parseArray('2')
     expect(data).to.have.length(0)
 
-    data = from(parser.parse('3'))
+    data = parser.parseArray('3')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('3')
     expect(data[0].result).to.equal('3')
 
-    data = from(parser.parse('4'))
+    data = parser.parseArray('4')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('4')
     expect(data[0].result).to.equal('4')
 
-    data = from(parser.parse('5'))
+    data = parser.parseArray('5')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('5')
     expect(data[0].result).to.equal('5')
 
-    data = from(parser.parse('6'))
+    data = parser.parseArray('6')
     expect(data).to.have.length(0)
   })
 
   it('handles a digit string with a minLength', () => {
-    parser.sentences = [<DigitString minLength={2} />]
+    parser.grammar = <DigitString minLength={2} />
 
-    data = from(parser.parse('04'))
+    data = parser.parseArray('04')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('04')
     expect(data[0].result).to.equal('04')
 
-    data = from(parser.parse('403'))
+    data = parser.parseArray('403')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('403')
     expect(data[0].result).to.equal('403')
 
-    data = from(parser.parse('3'))
+    data = parser.parseArray('3')
     expect(data).to.have.length(0)
   })
 
   it('handles a digit string with a maxLength', () => {
-    parser.sentences = [<DigitString maxLength={3} />]
+    parser.grammar = <DigitString maxLength={3} />
 
-    data = from(parser.parse('02'))
+    data = parser.parseArray('02')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('02')
     expect(data[0].result).to.equal('02')
 
-    data = from(parser.parse('403'))
+    data = parser.parseArray('403')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('403')
     expect(data[0].result).to.equal('403')
 
-    data = from(parser.parse('4032'))
+    data = parser.parseArray('4032')
     expect(data).to.have.length(0)
   })
 
   it('handles a digit string with a minLength and a maxLength', () => {
-    parser.sentences = [<DigitString minLength={2} maxLength={4} />]
+    parser.grammar = <DigitString minLength={2} maxLength={4} />
 
-    data = from(parser.parse('2'))
+    data = parser.parseArray('2')
     expect(data).to.have.length(0)
 
-    data = from(parser.parse('03'))
+    data = parser.parseArray('03')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('03')
     expect(data[0].result).to.equal('03')
 
-    data = from(parser.parse('440'))
+    data = parser.parseArray('440')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('440')
     expect(data[0].result).to.equal('440')
 
-    data = from(parser.parse('4242'))
+    data = parser.parseArray('4242')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('4242')
     expect(data[0].result).to.equal('4242')
 
-    data = from(parser.parse('123456'))
+    data = parser.parseArray('123456')
     expect(data).to.have.length(0)
   })
 
   it('handles a digit string with a all validators', () => {
-    parser.sentences = [<DigitString minLength={3} maxLength={4} min={10} max={8000} />]
+    parser.grammar = <DigitString minLength={3} maxLength={4} min={10} max={8000} />
 
-    data = from(parser.parse('002'))
+    data = parser.parseArray('002')
     expect(data).to.have.length(0)
 
-    data = from(parser.parse('20'))
+    data = parser.parseArray('20')
     expect(data).to.have.length(0)
 
-    data = from(parser.parse('100'))
+    data = parser.parseArray('100')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('100')
     expect(data[0].result).to.equal('100')
 
-    data = from(parser.parse('0777'))
+    data = parser.parseArray('0777')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('0777')
     expect(data[0].result).to.equal('0777')
 
-    data = from(parser.parse('7000'))
+    data = parser.parseArray('7000')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('7000')
     expect(data[0].result).to.equal('7000')
 
-    data = from(parser.parse('8500'))
+    data = parser.parseArray('8500')
     expect(data).to.have.length(0)
 
-    data = from(parser.parse('07500'))
+    data = parser.parseArray('07500')
     expect(data).to.have.length(0)
   })
 
   it('rejects leading zeros with allowLeadingZeros', () => {
-    parser.sentences = [<DigitString allowLeadingZeros={false} />]
+    parser.grammar = <DigitString allowLeadingZeros={false} />
 
-    data = from(parser.parse('02'))
+    data = parser.parseArray('02')
     expect(data).to.have.length(0)
 
-    data = from(parser.parse('20'))
+    data = parser.parseArray('20')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('20')
     expect(data[0].result).to.equal('20')
 
-    data = from(parser.parse('0'))
+    data = parser.parseArray('0')
     expect(data).to.have.length(1)
     expect(fulltext.all(data[0])).to.equal('0')
     expect(data[0].result).to.equal('0')
